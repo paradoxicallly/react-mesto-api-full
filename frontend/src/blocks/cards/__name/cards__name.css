@@ -1,0 +1,6 @@
+.cards__name {
+    display: flex;
+    justify-content: space-between;
+    max-height: 79px;
+    margin: 0 21px 0;
+}

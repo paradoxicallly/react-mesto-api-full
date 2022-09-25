@@ -1,0 +1,15 @@
+.profile__avatar-container {
+    background-size: contain;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    position: relative;
+}
+
+.profile__avatar-container:hover {
+    opacity: 0.8;
+}
+
+.profile__avatar-container:hover .profile__avatar-change {
+    display: block;
+}

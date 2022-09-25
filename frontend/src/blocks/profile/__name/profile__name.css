@@ -1,0 +1,4 @@
+.profile__name {
+    display: flex;
+    gap: 18px;
+}
