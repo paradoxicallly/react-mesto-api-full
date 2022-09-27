@@ -3,12 +3,13 @@
     padding-top: 45px;
     margin: auto;
     border-bottom: 1px solid #545454;
+    display: flex;
+    justify-content: space-between;
 }
 
 @media screen and (max-width: 900px) {
     .header {
         max-width: 700px;
-        margin: 0 20px 0;
     }
 }
 
@@ -16,5 +17,6 @@
     .header {
         max-width: 320px;
         padding-top: 28px;
+        margin: 0 30px 0;
     }
 }

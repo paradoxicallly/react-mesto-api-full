@@ -33,7 +33,6 @@ function Main(props) {
                             onCardLike={props.onCardLike}
                             card={card}
                             key={card._id}
-                            currentUserId={currentUser._id}
                             onCardDeleteConfirm={props.onCardDeleteConfirm}
                         />
                     )) }

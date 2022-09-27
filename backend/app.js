@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const { errors, Joi, celebrate } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { createUser, login } = require('./controllers/users');
@@ -8,7 +9,7 @@ const auth = require('./middlewares/auth');
 const errorsHandler = require('./middlewares/errorsHandler');
 const NotFoundError = require('./errors/not-found-error');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 4000 } = process.env;
 const app = express();
 
 app.use(bodyParser.json());
@@ -20,6 +21,8 @@ mongoose.set('toJSON', { useProjection: true });
 
 // логирование запросов
 app.use(requestLogger);
+
+app.use(cors());
 
 // роуты, не требующие авторизации
 app.post('/signup', celebrate({

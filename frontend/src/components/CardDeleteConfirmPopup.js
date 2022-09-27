@@ -11,7 +11,7 @@ function CardDeleteConfirmPopup(props) {
         <PopupWithForm 
             name="delete-card" 
             title="Вы уверены?" 
-            buttonName="Да" 
+            buttonName={props.isLoading? 'Удаление...' : 'Да'}
             isOpen={props.isOpen}
             onClose={props.onClose}
             onSubmit={handleSubmit}
