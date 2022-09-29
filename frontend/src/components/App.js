@@ -44,7 +44,7 @@ function App(props) {
         const isLiked = card.likes.some(like => like._id === currentUser._id);
         
         api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
-            setCardsList((state) => state.map((c) => c._id === card._id ? newCard : c));
+            setCardsList((state) => state.map((c) => c._id === card._id ? newCard.data : c));
         })
         .catch((err) => {
             console.log(err);
@@ -69,7 +69,7 @@ function App(props) {
         setIsLoading(true);
         api.addCard(cardName, link)
         .then(res => {
-            setCardsList([res, ...cardsList])
+            setCardsList([res.data, ...cardsList])
             closeAllPopups()
         })
         .catch((err) => {
@@ -203,7 +203,7 @@ function App(props) {
     React.useEffect(() => {
         api.getInitialCards()
             .then(res => {
-                setCardsList(res)
+                setCardsList(res.data)
             })
             .catch((err) => {
                 console.log(err);
