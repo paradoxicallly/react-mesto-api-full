@@ -91,7 +91,7 @@ class Api {
   }
 
 export const api = new Api({
-    baseUrl: 'http://api.paradoxically.nomoredomains.icu',
+    baseUrl: 'https://api.paradoxically.nomoredomains.icu',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`,
       'Content-Type': 'application/json'
