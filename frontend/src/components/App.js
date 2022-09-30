@@ -17,7 +17,7 @@ import { CardsListContext } from "../contexts/CardsListContext";
 import { api } from "../utils/Api";
 import { register, checkTokenValidity, authorize } from "../utils/Auth";
 
-function App(props) {   
+function App(props) {
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false)
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false)
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false)
@@ -41,7 +41,7 @@ function App(props) {
     const isOpen = isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard.link
 
     function handleCardLike(card) {
-        const isLiked = card.likes.some(like => like._id === currentUser._id);
+        const isLiked = card.likes.includes(currentUser._id) || card.likes.includes(currentUser)
         
         api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
             setCardsList((state) => state.map((c) => c._id === card._id ? newCard.data : c));
@@ -116,7 +116,7 @@ function App(props) {
         setIsLoading(true);
         api.setUserInfo(userName, userAbout)
         .then(res => {
-            setCurrentUser(res)
+            setCurrentUser(res.user)
             closeAllPopups()
         })
         .catch((err) => {
@@ -129,7 +129,7 @@ function App(props) {
         setIsLoading(true);
         api.changeAvatar(avatar)
         .then(res => {
-            setCurrentUser(res)
+            setCurrentUser(res.user)
             closeAllPopups()
         })
         .catch((err) => {
@@ -147,6 +147,8 @@ function App(props) {
             setLoggedIn(true)
             setCurrentUserMail(email)
             this.history.push("/")
+            // eslint-disable-next-line no-restricted-globals
+            location.reload()
         })
         .catch((err) => {
             setinfoTooltipType("error")
@@ -181,7 +183,8 @@ function App(props) {
         } else {
             checkTokenValidity(token)
             .then(res => {
-                setCurrentUserMail(res.data.email)
+                setLoggedIn(true);
+                setCurrentUserMail(res.email)
             })
             .catch(err => {
                 console.log(err)
@@ -198,7 +201,7 @@ function App(props) {
             .catch((err) => {
                 console.log(err);
             });
-    }, [])
+    }, [loggedIn])
 
     React.useEffect(() => {
         api.getInitialCards()
@@ -208,7 +211,7 @@ function App(props) {
             .catch((err) => {
                 console.log(err);
             });
-    }, [])
+    }, [loggedIn])
 
     React.useEffect(() => {
         function closeByEscape(evt) {
@@ -236,7 +239,7 @@ function App(props) {
                         loggedIn={loggedIn}
                     >                
                         <CardsListContext.Provider value={[cardsList, setCardsList]}>
-                            <Main 
+                            <Main
                                 onEditProfile={handleEditProfileClick}
                                 onAddPlace={handleAddPlaceClick}
                                 onEditAvatar={handleEditAvatarClick}

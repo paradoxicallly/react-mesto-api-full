@@ -16,10 +16,13 @@ function Card(props) {
         props.onCardDeleteConfirm(props.card._id);
     }
 
-    const isOwn = props.card.owner._id === currentUser._id || props.card.owner._id === currentUser;
-    console.log(isOwn)
+    const isOwn = () => {
+        const current = currentUser._id || currentUser
+        const owner = props.card.owner._id || props.card.owner
+        return current === owner
+    }
     const cardDeleteButtonClassName = (
-        `cards__button-delete ${isOwn ? false : 'cards__button-delete_hidden'}`
+        `cards__button-delete ${isOwn() ? false : 'cards__button-delete_hidden'}`
     );
 
     const isLiked = props.card.likes.includes(currentUser._id) || props.card.likes.includes(currentUser)
