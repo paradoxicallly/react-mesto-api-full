@@ -1,6 +1,8 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+
+const { NODE_ENV, JWT_SECRET } = process.env;
 const NotFoundError = require('../errors/not-found-error');
 const BadRequestError = require('../errors/bad-request-error');
 const ConflictDataError = require('../errors/conflict-data-error');
@@ -98,13 +100,17 @@ module.exports.login = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
     // создадим токен
-      const token = jwt.sign({ _id: user._id }, 'some-secret-key', { expiresIn: '7 days' });
-
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
+        {
+          expiresIn: '7 days',
+        },
+      );
       // вернём токен
       res.send({ token });
     })
     .catch((err) => {
-      console.log('----------------->', err);
       if (err.name === 'Error') {
         next(new AuthError('Ошибка авторизации. Email или пароль введены неправильно'));
       }
