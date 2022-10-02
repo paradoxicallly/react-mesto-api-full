@@ -201,7 +201,7 @@ function App(props) {
             .catch((err) => {
                 console.log(err);
             });
-    }, [loggedIn])
+    }, [])
 
     React.useEffect(() => {
         api.getInitialCards()
@@ -211,7 +211,7 @@ function App(props) {
             .catch((err) => {
                 console.log(err);
             });
-    }, [loggedIn])
+    }, [])
 
     React.useEffect(() => {
         function closeByEscape(evt) {
