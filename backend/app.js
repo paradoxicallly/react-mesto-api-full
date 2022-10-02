@@ -56,16 +56,15 @@ app.use(auth);
 app.use('/cards', require('./routes/cards'));
 app.use('/users', require('./routes/users'));
 
+// обработка роутов
+app.use('*', (req, res, next) => {
+  next(new NotFoundError('Роут не найден'));
+});
 // логирование ошибок
 app.use(errorLogger);
 
 // обработчик ошибок celebrate
 app.use(errors());
-
-// обработка роутов
-app.use('*', (req, res, next) => {
-  next(new NotFoundError('Роут не найден'));
-});
 
 // обработка ошибок
 app.use(errorsHandler);
